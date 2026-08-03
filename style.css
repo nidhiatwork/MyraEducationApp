@@ -1,0 +1,338 @@
+/* ============================================================================
+   Myra Learns — mobile-first styles
+   Big touch targets (>=52px), high contrast, playful but calm.
+   ========================================================================== */
+:root {
+  --bg: #f6f2ff;
+  --card: #ffffff;
+  --ink: #2b2350;
+  --muted: #6d6390;
+  --line: #e6e0f7;
+  --brand: #7c4dff;
+  --brand-dk: #5e35b1;
+  --ok: #2e9e5b;
+  --no: #e5484d;
+  --warn: #f5a524;
+  --shadow: 0 4px 0 rgba(0,0,0,.08), 0 10px 24px rgba(80,60,160,.12);
+  --radius: 20px;
+}
+
+/* Per-subject theming — set via data-subject on .page */
+[data-subject="hindi"]   { --brand:#ff7043; --brand-dk:#e64a19; --bg:#fff4ef; }
+[data-subject="english"] { --brand:#3d8bfd; --brand-dk:#1565c0; --bg:#eef5ff; }
+[data-subject="maths"]   { --brand:#43a047; --brand-dk:#2e7d32; --bg:#eefaf0; }
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "Baloo 2", "Segoe UI", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.45;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+.dev, .hi { font-family: "Tiro Devanagari Hindi", "Nirmala UI", serif; }
+
+.page { min-height: 100vh; background: var(--bg); transition: background .25s; }
+
+/* ------------------------------------------------------------------ topbar */
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; gap: 10px;
+  padding: max(10px, env(safe-area-inset-top)) 12px 10px;
+  background: var(--brand);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,.14);
+}
+.topbar .ttl { flex: 1; min-width: 0; text-align: center; }
+.topbar h1 { margin: 0; font-size: 20px; font-weight: 800; line-height: 1.15;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topbar p { margin: 1px 0 0; font-size: 12.5px; opacity: .92; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.spacer { width: 44px; height: 44px; display: inline-block; flex: none; }
+.navgrp { display: flex; align-items: center; gap: 6px; flex: none; }
+.iconbtn.small { width: 38px; height: 38px; font-size: 17px; }
+
+.iconbtn {
+  flex: none; width: 46px; height: 46px; border-radius: 50%;
+  border: none; background: rgba(255,255,255,.22); color: #fff;
+  font-size: 21px; font-weight: 800; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: transform .12s;
+}
+.iconbtn:active { transform: scale(.9); }
+.content .iconbtn { background: var(--brand); }
+.content .iconbtn.slow { background: #8d80c9; }
+
+.starcount {
+  flex: none; border: none; border-radius: 999px; cursor: pointer;
+  background: rgba(255,255,255,.22); color: #fff;
+  font: inherit; font-weight: 800; font-size: 15px; padding: 9px 13px;
+  min-height: 44px;
+}
+.starcount.bump { animation: bump .45s ease; }
+@keyframes bump { 0%{transform:scale(1)} 40%{transform:scale(1.35) rotate(-8deg)} 100%{transform:scale(1)} }
+
+.content { padding: 16px 14px 90px; max-width: 720px; margin: 0 auto; }
+
+/* ------------------------------------------------------------------- cards */
+.card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 18px 16px; margin: 0 0 14px; box-shadow: var(--shadow);
+  border: 2px solid var(--line);
+}
+.card h2 { margin: 0 0 8px; font-size: 20px; }
+.card p  { margin: 0 0 8px; color: var(--muted); }
+.card.finish { text-align: center; }
+.bigemoji { font-size: 62px; line-height: 1; margin-bottom: 6px; }
+.score { font-size: 30px; font-weight: 800; color: var(--brand); margin: 4px 0 !important; }
+.note { font-size: 14.5px; }
+
+/* ----------------------------------------------------------------- buttons */
+.btn {
+  appearance: none; border: none; cursor: pointer; font: inherit;
+  font-weight: 700; font-size: 16.5px;
+  min-height: 52px; padding: 12px 18px; border-radius: 16px;
+  background: #fff; color: var(--ink); border: 2px solid var(--line);
+  box-shadow: 0 3px 0 var(--line);
+  transition: transform .1s, box-shadow .1s;
+}
+.btn:active { transform: translateY(3px); box-shadow: none; }
+.btn.primary { background: var(--brand); color: #fff; border-color: var(--brand-dk);
+  box-shadow: 0 4px 0 var(--brand-dk); }
+.btn.ghost { background: transparent; }
+.btn.mic { background: #fff0f5; border-color: #ffc2da; box-shadow: 0 3px 0 #ffc2da; }
+.btn.mic.listening { background: #ffe0ec; animation: pulse 1s infinite; }
+@keyframes pulse { 50% { transform: scale(1.04); } }
+.btn.wide { width: 100%; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 12px; }
+.row > .btn { flex: 1 1 auto; }
+
+/* -------------------------------------------------------------- home screen */
+.hero {
+  text-align: center; padding: 26px 16px 20px; color: #fff;
+  background: linear-gradient(150deg, #7c4dff, #b388ff 55%, #ff8a80);
+  border-radius: 0 0 34px 34px; box-shadow: 0 8px 22px rgba(90,60,180,.28);
+}
+.hero .wave { font-size: 54px; line-height: 1; animation: float 3s ease-in-out infinite; }
+@keyframes float { 50% { transform: translateY(-9px) rotate(-6deg); } }
+.hero h1 { margin: 6px 0 2px; font-size: 27px; font-weight: 800; }
+.hero p { margin: 0; opacity: .95; font-weight: 600; font-size: 15px; }
+.hero .badges { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+.hero .badge {
+  background: rgba(255,255,255,.24); border-radius: 999px;
+  padding: 7px 14px; font-weight: 800; font-size: 14px;
+}
+
+.subjects { display: grid; gap: 14px; padding: 18px 14px 100px; max-width: 720px; margin: 0 auto; }
+.subjcard {
+  display: flex; align-items: center; gap: 14px; text-align: left;
+  border: none; cursor: pointer; font: inherit; width: 100%;
+  background: var(--card); border-radius: 24px; padding: 18px 16px;
+  box-shadow: var(--shadow); border-left: 10px solid var(--c);
+  transition: transform .12s;
+}
+.subjcard:active { transform: scale(.975); }
+.subjcard .ic { font-size: 44px; line-height: 1; flex: none; }
+.subjcard .tx { flex: 1; min-width: 0; }
+.subjcard .tx b { display: block; font-size: 22px; font-weight: 800; }
+.subjcard .tx small { display: block; color: var(--muted); font-size: 14px; font-weight: 600; }
+.subjcard .go { font-size: 26px; color: var(--c); font-weight: 800; }
+
+/* --------------------------------------------------------------- tile menu */
+.tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.tile {
+  border: 2px solid var(--line); background: var(--card); border-radius: 20px;
+  padding: 16px 10px; cursor: pointer; font: inherit; text-align: center;
+  box-shadow: var(--shadow); min-height: 118px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  transition: transform .12s;
+}
+.tile:active { transform: scale(.96); }
+.tile .ic { font-size: 34px; line-height: 1; }
+.tile b { font-size: 16px; font-weight: 800; }
+.tile small { color: var(--muted); font-size: 12.5px; font-weight: 600; }
+.tile.done { border-color: var(--ok); background: #f2fbf5; }
+.tile .tick { position: absolute; }
+.tiles.one { grid-template-columns: 1fr; }
+.tiles.three { grid-template-columns: repeat(3, 1fr); }
+
+/* --------------------------------------------------------------- maatra UI */
+.maatrahero { text-align: center; }
+.maatrabig {
+  font-size: 96px; line-height: 1.1; font-weight: 700; color: var(--brand);
+  font-family: "Tiro Devanagari Hindi", serif;
+}
+.maatraname { font-size: 20px; font-weight: 800; margin: 0 0 4px; }
+.formula {
+  font-size: 34px; font-weight: 700; margin: 2px 0 10px;
+  font-family: "Tiro Devanagari Hindi", serif; color: var(--ink);
+}
+.formula i { font-style: normal; color: var(--muted); font-size: 24px; margin: 0 4px; }
+.formula b { color: var(--brand); }
+.chiprow { display: flex; flex-wrap: wrap; gap: 9px; justify-content: center; margin-top: 10px; }
+.chip {
+  border: 2px solid var(--line); background: #fff; border-radius: 14px;
+  padding: 10px 14px; font: inherit; cursor: pointer; min-height: 52px;
+  font-family: "Tiro Devanagari Hindi", serif; font-size: 25px; font-weight: 700;
+  box-shadow: 0 3px 0 var(--line); display: flex; flex-direction: column; align-items: center;
+}
+.chip small { font-family: "Baloo 2", sans-serif; font-size: 11px; color: var(--muted); }
+.chip:active { transform: translateY(3px); box-shadow: none; }
+
+.wordgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 11px; }
+.wordcard {
+  background: var(--card); border: 2px solid var(--line); border-radius: 18px;
+  padding: 12px 8px; text-align: center; cursor: pointer; font: inherit;
+  box-shadow: var(--shadow); transition: transform .12s;
+}
+.wordcard:active { transform: scale(.95); }
+.wordcard .e { font-size: 34px; line-height: 1.1; }
+.wordcard .w { font-size: 27px; font-weight: 700; font-family: "Tiro Devanagari Hindi", serif;
+  color: var(--ink); word-break: break-word; }
+.wordcard .w.en { font-family: "Baloo 2", sans-serif; font-size: 21px; }
+.wordcard .r { font-size: 12.5px; color: var(--brand-dk); font-weight: 700; }
+.wordcard .m { font-size: 12.5px; color: var(--muted); }
+.wordcard.lit { border-color: var(--brand); background: #fff8f3; }
+
+/* ------------------------------------------------------------- quiz / game */
+.qbox { text-align: center; }
+.qprompt { font-size: 21px; font-weight: 700; margin: 4px 0 12px; }
+.qbig {
+  font-size: 60px; font-weight: 700; line-height: 1.15;
+  font-family: "Tiro Devanagari Hindi", serif; color: var(--brand); margin: 6px 0 14px;
+}
+.qbig.en { font-family: "Baloo 2", sans-serif; font-size: 44px; }
+.opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 11px; }
+.opts.one { grid-template-columns: 1fr; }
+.opt {
+  border: 3px solid var(--line); background: #fff; border-radius: 18px;
+  min-height: 68px; padding: 12px 8px; cursor: pointer; font: inherit;
+  font-size: 25px; font-weight: 700; box-shadow: 0 4px 0 var(--line);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.opt.hi { font-family: "Tiro Devanagari Hindi", serif; }
+.opt small { font-family: "Baloo 2", sans-serif; font-size: 12px; color: var(--muted); font-weight: 600; }
+.opt:active { transform: translateY(4px); box-shadow: none; }
+.opt.right { border-color: var(--ok); background: #e9f9ef; box-shadow: 0 4px 0 var(--ok); animation: pop .3s; }
+.opt.wrong { border-color: var(--no); background: #fdecec; box-shadow: 0 4px 0 var(--no); animation: shake .35s; }
+.opt.dim { opacity: .45; }
+@keyframes pop { 40% { transform: scale(1.08); } }
+@keyframes shake { 25%{transform:translateX(-7px)} 50%{transform:translateX(7px)} 75%{transform:translateX(-4px)} }
+
+.pbar { height: 12px; background: #e9e3fb; border-radius: 99px; overflow: hidden; margin: 0 0 14px; }
+.pbar i { display: block; height: 100%; width: 0; border-radius: 99px;
+  background: linear-gradient(90deg, var(--brand), var(--brand-dk)); transition: width .35s; }
+
+/* ------------------------------------------------------------- sentences */
+.sentcard { text-align: center; }
+.sentence {
+  font-size: 30px; line-height: 1.75; font-weight: 700;
+  font-family: "Tiro Devanagari Hindi", serif; margin: 8px 0 6px; word-spacing: 4px;
+}
+.sentence.en { font-family: "Baloo 2", sans-serif; font-size: 25px; line-height: 1.6; }
+.sentence w {
+  display: inline-block; padding: 2px 5px; border-radius: 9px; cursor: pointer;
+  transition: background .15s, transform .15s;
+}
+.sentence w:active, .sentence w.lit { background: #ffe9c9; transform: scale(1.08); }
+.roman { color: var(--brand-dk); font-weight: 700; font-size: 14.5px; }
+.mean  { color: var(--muted); font-size: 14.5px; }
+
+/* ------------------------------------------------------------ spelling UI */
+.spellbox { text-align: center; }
+.slots { display: flex; gap: 7px; justify-content: center; flex-wrap: wrap; margin: 14px 0; min-height: 60px; }
+.slot {
+  width: 44px; height: 56px; border-radius: 12px; border: 3px dashed var(--line);
+  background: #fff; display: flex; align-items: center; justify-content: center;
+  font-size: 27px; font-weight: 800; text-transform: lowercase;
+}
+.slot.filled { border-style: solid; border-color: var(--brand); background: #f3f8ff; }
+.slot.space { width: 20px; border: none; background: transparent; }
+.slot.ok { border-color: var(--ok); background: #e9f9ef; }
+.slot.bad { border-color: var(--no); background: #fdecec; animation: shake .35s; }
+.keys { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.key {
+  min-width: 40px; min-height: 50px; border-radius: 11px; border: 2px solid var(--line);
+  background: #fff; font: inherit; font-size: 19px; font-weight: 800; cursor: pointer;
+  box-shadow: 0 3px 0 var(--line); padding: 6px 9px; text-transform: lowercase;
+}
+.key:active { transform: translateY(3px); box-shadow: none; }
+.key.used { opacity: .32; }
+.key.act { background: var(--brand); color: #fff; border-color: var(--brand-dk); box-shadow: 0 3px 0 var(--brand-dk); }
+.hintline { color: var(--muted); font-size: 15px; font-weight: 700; margin: 6px 0; min-height: 22px; }
+
+/* ---------------------------------------------------------------- maths UI */
+.sum { display: inline-block; text-align: right; font-variant-numeric: tabular-nums;
+  font-size: 40px; font-weight: 800; letter-spacing: 5px; line-height: 1.3; }
+.sum .carry { display: block; font-size: 17px; color: var(--warn); letter-spacing: 5px; height: 22px; font-weight: 800; }
+.sum .op { display: inline-block; width: 30px; text-align: left; color: var(--brand); }
+.sum hr { border: none; border-top: 4px solid var(--ink); margin: 6px 0; }
+.sum .ansrow { color: var(--brand-dk); }
+.tablegrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+.tbtn {
+  border: 2px solid var(--line); background: #fff; border-radius: 16px; padding: 15px 6px;
+  font: inherit; font-size: 23px; font-weight: 800; cursor: pointer; box-shadow: 0 3px 0 var(--line);
+}
+.tbtn:active { transform: translateY(3px); box-shadow: none; }
+.tbtn.done { background: #eefaf0; border-color: var(--ok); }
+.tablelist { display: grid; gap: 7px; }
+.trow {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  background: #fff; border: 2px solid var(--line); border-radius: 14px;
+  padding: 11px 14px; font-size: 20px; font-weight: 700; cursor: pointer;
+}
+.trow.lit { background: #eefaf0; border-color: var(--ok); transform: scale(1.02); }
+.numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 300px; margin: 12px auto 0; }
+.numpad .key { min-height: 58px; font-size: 24px; width: 100%; }
+.answerbox {
+  font-size: 40px; font-weight: 800; letter-spacing: 3px; min-height: 62px;
+  border: 3px solid var(--line); border-radius: 16px; background: #fff;
+  display: flex; align-items: center; justify-content: center; margin: 10px auto; max-width: 300px;
+  font-variant-numeric: tabular-nums;
+}
+.answerbox.ok { border-color: var(--ok); background: #e9f9ef; }
+.answerbox.bad { border-color: var(--no); background: #fdecec; animation: shake .35s; }
+.timerbar { height: 14px; background: #e9e3fb; border-radius: 99px; overflow: hidden; margin-bottom: 12px; }
+.timerbar i { display: block; height: 100%; background: linear-gradient(90deg,#43a047,#f5a524,#e5484d);
+  background-size: 300% 100%; transition: width .12s linear; }
+.stat { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
+.stat span { background: #fff; border: 2px solid var(--line); border-radius: 999px;
+  padding: 6px 13px; font-weight: 800; font-size: 14px; }
+.strategy { background: #fffbe9; border-color: #ffe08a; }
+.strategy h3 { margin: 0 0 6px; font-size: 17px; }
+.strategy .step { font-size: 18px; font-weight: 700; margin: 4px 0; }
+
+/* -------------------------------------------------------------- trace pad */
+.tracewrap { position: relative; width: 260px; height: 260px; margin: 10px auto;
+  background: #fff; border: 3px dashed var(--line); border-radius: 22px; overflow: hidden; }
+.tracecanvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.tracecanvas.guide { pointer-events: none; }
+
+/* ------------------------------------------------------------ toast / fx */
+.toast {
+  position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 120%);
+  background: #2b2350; color: #fff; padding: 13px 22px; border-radius: 999px;
+  font-weight: 800; font-size: 16px; z-index: 90; transition: transform .3s;
+  max-width: 90vw; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,.28);
+}
+.toast.show { transform: translate(-50%, 0); }
+.toast.ok { background: var(--ok); }
+.fx { position: fixed; inset: 0; pointer-events: none; z-index: 80; overflow: hidden; }
+.confetti { position: absolute; top: -40px; animation: fall 2.4s linear forwards; }
+@keyframes fall {
+  to { transform: translateY(105vh) rotate(520deg); opacity: .1; }
+}
+
+.footnote { text-align: center; color: var(--muted); font-size: 13px; padding: 8px 0 24px; }
+
+@media (min-width: 560px) {
+  .wordgrid { grid-template-columns: repeat(3, 1fr); }
+  .tiles { grid-template-columns: repeat(3, 1fr); }
+  body { font-size: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

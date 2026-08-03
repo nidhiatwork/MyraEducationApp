@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#7c4dff" />
+  <meta name="description" content="Myra's learning app — Hindi, English and Maths." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Myra Learns" />
+  <title>Myra Learns</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=1" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌈</text></svg>" />
+</head>
+<body>
+  <div id="app"><!-- everything is rendered by JS --></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="fx" id="fx" aria-hidden="true"></div>
+
+  <!-- configuration -->
+  <script src="config.js?v=1"></script>
+
+  <!-- content (edit these as she moves up a class) -->
+  <script src="content-hindi.js?v=1"></script>
+  <script src="content-english.js?v=1"></script>
+  <script src="content-maths.js?v=1"></script>
+
+  <!-- engine + screens -->
+  <script src="engine.js?v=1"></script>
+  <script src="screens-hindi.js?v=1"></script>
+  <script src="screens-english.js?v=1"></script>
+  <script src="screens-maths.js?v=1"></script>
+  <script src="app.js?v=1"></script>
+</body>
+</html>
