@@ -34,6 +34,7 @@
     t.appendChild(tile("✳️", "Multiply", "2-digit × 1", () => E.go(() => columnPractice("mul"))));
     t.appendChild(tile("➗", "Divide", "no remainder", () => E.go(() => columnPractice("div"))));
     t.appendChild(tile("⚡", "Brain Speed", "60 seconds", () => E.go(speedHome)));
+    t.appendChild(tile("🔥", "RapidFire100", "Race to 100!", () => E.go(rapidFireHome)));
     m.appendChild(t);
     return m;
   }
@@ -441,5 +442,156 @@
     timer = setInterval(tick, 1000);
   }
 
-  window.MathsScreens = { home };
+  /* ------------------------------------------------------------ RAPIDFIRE100 */
+  /* Chain-addition sprint: each answer becomes the next problem's first number
+     (1+3=4, then 4+6=10, then 10+7=17…) until the running total hits exactly 100.
+     A wrong answer never advances — she must get it right to keep going.
+     Best time (lower is better) is tracked separately from the "higher wins" best(). */
+  function fmtRfTime(sec) {
+    if (sec == null) return "—";
+    if (sec < 60) return sec.toFixed(1) + "s";
+    const mm = Math.floor(sec / 60);
+    return mm + "m " + (sec - mm * 60).toFixed(1) + "s";
+  }
+  function rfBestTime(newSeconds) {
+    const KEY = "m-rapidfire100-time";
+    const cur = E.state.best[KEY];
+    if (newSeconds != null && (cur == null || newSeconds < cur)) {
+      E.state.best[KEY] = newSeconds;
+      E.save();
+      return { value: newSeconds, isNew: true };
+    }
+    return { value: cur, isNew: false };
+  }
+  function pickNextAddend(total) {
+    return Math.min(MATHS.ri(1, 9), 100 - total);
+  }
+
+  function rapidFireHome() {
+    const m = E.page({ title: "🔥 RapidFire100", subtitle: "Add your way to 100!", subject: S });
+
+    const c = E.el("div", "card qbox");
+    c.appendChild(E.el("h2", null, "🎯 How to play"));
+    c.appendChild(E.el("p", null,
+      "I'll show two numbers, like <b>1 + 3</b>. Type the answer — <b>4</b>. " +
+      "Then I add a new number to YOUR answer — <b>4 + 6</b> — and you type that answer too. " +
+      "Keep going until you reach exactly <b>100</b>! If an answer is wrong, it won't move on — " +
+      "just try again. How fast can you reach 100?"));
+    const best = rfBestTime();
+    c.appendChild(E.el("p", null, best.value != null
+      ? "🏆 Your best time: <b>" + fmtRfTime(best.value) + "</b>. Can you beat it?"
+      : "This is your first try — go for it!"));
+    m.appendChild(c);
+
+    m.appendChild(E.btn("🔥 Start!", "btn primary wide", () => E.go(rapidFireRun)));
+  }
+
+  function rapidFireRun() {
+    let total = 0, a = 0, b = 0, typed = "", tries = 0;
+    let timer = null;
+    const startedAt = Date.now();
+
+    const m = E.page({ title: "🔥 RapidFire100", subtitle: "Keep adding — don't stop!", subject: S });
+
+    const bar = E.progressBar();
+    m.appendChild(bar.node);
+
+    const stats = E.el("div", "stat");
+    const sTime = E.el("span", null, "⏱️ 0.0s");
+    const sGoal = E.el("span", null, "🎯 0 / 100");
+    stats.appendChild(sTime); stats.appendChild(sGoal);
+    m.appendChild(stats);
+
+    const host = E.el("div");
+    m.appendChild(host);
+
+    function nextProblem() {
+      if (total === 0) { a = MATHS.ri(1, 5); b = MATHS.ri(1, 5); }
+      else { a = total; b = pickNextAddend(total); }
+      typed = ""; tries = 0;
+      render();
+    }
+
+    function render() {
+      host.innerHTML = "";
+      const card = E.el("div", "card qbox");
+      card.appendChild(E.el("div", "qbig en", a + " + " + b));
+      const box = E.el("div", "answerbox", "");
+      card.appendChild(box);
+
+      const pad = E.el("div", "numpad");
+      ["1","2","3","4","5","6","7","8","9","⌫","0","✓"].forEach(k => {
+        pad.appendChild(E.btn(k, "key" + (k === "✓" ? " act" : ""), () => {
+          if (k === "⌫") typed = typed.slice(0, -1);
+          else if (k === "✓") { submit(box); return; }
+          else if (typed.length < 3) typed += k;
+          box.textContent = typed;
+          box.className = "answerbox";
+          if (typed.length && typed.length >= String(a + b).length) submit(box);
+        }));
+      });
+      card.appendChild(pad);
+      host.appendChild(card);
+    }
+
+    function submit(box) {
+      if (!typed.length) return;
+      const ans = a + b;
+      if (Number(typed) === ans) {
+        box.className = "answerbox ok";
+        E.sfx.correct();
+        total = ans;
+        sGoal.textContent = "🎯 " + total + " / 100";
+        bar.set(total, 100);
+        if (total >= 100) setTimeout(finish, 500);
+        else setTimeout(nextProblem, 450);
+      } else {
+        tries++;
+        box.className = "answerbox bad";
+        E.sfx.wrong();
+        E.toast(tries >= 2 ? "🤔 Hint: count on from " + a + "!" : "Not quite — try again! 💪");
+        setTimeout(() => { typed = ""; box.textContent = ""; box.className = "answerbox"; }, 700);
+      }
+    }
+
+    function tick() {
+      if (!document.body.contains(m)) { clearInterval(timer); return; }
+      const elapsed = (Date.now() - startedAt) / 1000;
+      sTime.textContent = "⏱️ " + elapsed.toFixed(1) + "s";
+    }
+
+    function finish() {
+      clearInterval(timer);
+      host.innerHTML = "";
+      const seconds = (Date.now() - startedAt) / 1000;
+      const rec = rfBestTime(seconds);
+
+      let emoji, msg;
+      if (seconds < 30)      { emoji = "🚀"; msg = "Lightning fast!"; }
+      else if (seconds < 60) { emoji = "🔥"; msg = "Super speedy!"; }
+      else if (seconds < 120){ emoji = "🌟"; msg = "Great job!"; }
+      else                   { emoji = "💪"; msg = "You did it!"; }
+
+      const card = E.el("div", "card finish");
+      card.appendChild(E.el("div", "bigemoji", emoji));
+      card.appendChild(E.el("h2", null, msg));
+      card.appendChild(E.el("p", "score", fmtRfTime(seconds)));
+      card.appendChild(E.el("p", "note", rec.isNew
+        ? "🏆 New best time!"
+        : "⭐ Best time: " + fmtRfTime(rec.value)));
+      const row = E.el("div", "row");
+      row.appendChild(E.btn("🔁 Play again", "btn primary", () => E.replace(rapidFireRun)));
+      row.appendChild(E.btn("← Back", "btn", () => E.back()));
+      card.appendChild(row);
+      host.appendChild(card);
+
+      E.celebrate(rec.isNew ? "New record, " + E.cfg.child.name + "! 🏆" : E.praise(), 5);
+      E.touchStreak();
+    }
+
+    nextProblem();
+    timer = setInterval(tick, 100);
+  }
+
+  window.MathsScreens = { home, fmtRfTime };
 })();
