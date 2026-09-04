@@ -78,7 +78,8 @@
       ["✖️ Tables learnt", tab + " / " + MATHS.tablesUpTo],
       ["🪄 Mental tricks learnt", str + " / " + MATHS.strategies.length],
       ["⚡ Brain Speed record", (E.best("m-speed") || 0) + " in 60s"],
-      ["🔥 RapidFire100 best time", MathsScreens.fmtRfTime(E.state.best["m-rapidfire100-time"])]
+      ["🔥 RapidFire100 best time", MathsScreens.fmtRfTime(E.state.best["m-rapidfire100-time"])],
+      ["🧊 RapidFire0 best time", MathsScreens.fmtRfTime(E.state.best["m-rapidfire0-time"])]
     ];
     const list = E.el("div", "tablelist");
     rows.forEach(r => {
