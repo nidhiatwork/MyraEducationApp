@@ -44,6 +44,7 @@ automatically after two misses.
 | **Multiplication** | 2-digit × 1-digit |
 | **Division** | 2-digit ÷ 1-digit — **guaranteed exact, never a remainder** |
 | **⚡ Brain Speed** | 60-second mental-addition sprint with a personal record |
+| **✖️ RapidFire Tables** | 20 shuffled multiplication questions: tables 1–13 × 1–9, no repeated pair in a round. Count-up timer, retry until correct, table-trick hint after two misses, first-try count, and a separate best-time record (also in Grown-ups). No time limit. |
 | **5 mental tricks** | Make a Ten · Split the Tens · Near Doubles · The +9 Trick · Count On |
 
 Sums are **generated**, never a fixed list — she can practise forever and never

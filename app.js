@@ -79,7 +79,8 @@
       ["🪄 Mental tricks learnt", str + " / " + MATHS.strategies.length],
       ["⚡ Brain Speed record", (E.best("m-speed") || 0) + " in 60s"],
       ["🔥 RapidFire100 best time", MathsScreens.fmtRfTime(E.state.best["m-rapidfire100-time"])],
-      ["🧊 RapidFire0 best time", MathsScreens.fmtRfTime(E.state.best["m-rapidfire0-time"])]
+      ["🧊 RapidFire0 best time", MathsScreens.fmtRfTime(E.state.best["m-rapidfire0-time"])],
+      ["✖️ RapidFire Tables (20) best time", MathsScreens.fmtRfTime(E.state.best["m-rapidfire-tables-20-time"])]
     ];
     const list = E.el("div", "tablelist");
     rows.forEach(r => {
@@ -99,7 +100,7 @@
       ENGLISH.reading.length + " reading levels · " + ENGLISH.passages.length + " stories.<br>" +
       "<b>Maths:</b> tables 1–" + MATHS.tablesUpTo +
       " · carry addition · borrow subtraction · 2-digit × 1-digit · exact division · " +
-      MATHS.strategies.length + " mental-maths tricks."));
+      MATHS.strategies.length + " mental-maths tricks · RapidFire Tables: 20 questions, tables 1–13 × 1–9."));
     c.appendChild(E.el("p", null,
       "<b>To update for the next class:</b> edit <code>content-hindi.js</code>, " +
       "<code>content-english.js</code>, <code>content-maths.js</code> and bump " +

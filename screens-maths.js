@@ -36,6 +36,7 @@
     t.appendChild(tile("⚡", "Brain Speed", "60 seconds", () => E.go(speedHome)));
     t.appendChild(tile("🔥", "RapidFire100", "Race to 100!", () => E.go(rapidFireHome)));
     t.appendChild(tile("🧊", "RapidFire0", "Race to 0!", () => E.go(rapidFireZeroHome)));
+    t.appendChild(tile("✖️", "RapidFire Tables", "1–13 × 1–9", () => E.go(rapidFireTablesHome)));
     m.appendChild(t);
     return m;
   }
@@ -467,6 +468,8 @@
   }
   const RF100_KEY = "m-rapidfire100-time";
   const RF0_KEY = "m-rapidfire0-time";
+  const RFT_KEY = "m-rapidfire-tables-20-time";
+  const RFT_TOTAL = 20;
   function pickNextAddend(total) {
     return Math.min(MATHS.ri(1, 9), 100 - total);
   }
@@ -732,6 +735,142 @@
 
     nextProblem();
     timer = setInterval(tick, 100);
+  }
+
+  /* ------------------------------------------------------- RAPIDFIRE TABLES */
+  function rapidFireTablesHome() {
+    const m = E.page({ title: "✖️ RapidFire Tables", subtitle: "Tables 1–13 × 1–9", subject: S });
+    const card = E.el("div", "card qbox");
+    card.appendChild(E.el("h2", null, "🎯 A multiplication dash!"));
+    card.appendChild(E.el("p", null,
+      "Solve <b>" + RFT_TOTAL + " shuffled questions</b>, like <b>7 × 4</b> or <b>12 × 5</b>. " +
+      "The first number is <b>1 to 13</b>; the second is always <b>1 to 9</b>. " +
+      "Tap your answer on the number pad. Full-length answers are checked automatically, " +
+      "or tap ✓ to check. A wrong answer stays on the same question so you can try again."));
+    card.appendChild(E.el("p", null, "The clock counts up. There is no time limit — finish at your own pace!"));
+    const record = rfBestTime(RFT_KEY);
+    card.appendChild(E.el("p", null, record.value == null
+      ? "Finish your first round to set your own record! ⭐"
+      : "🏆 Your best time: <b>" + fmtRfTime(record.value) + "</b> for " + RFT_TOTAL + " questions."));
+    m.appendChild(card);
+    m.appendChild(E.btn("🚀 Start!", "btn primary wide", () => E.go(rapidFireTablesRun)));
+  }
+
+  function rapidFireTablesRun() {
+    const pool = [];
+    for (let n = 1; n <= 13; n++) pool.push(...MATHS.tableRows(n, 9));
+    const questions = E.shuffle(pool).slice(0, RFT_TOTAL);
+    let index = 0, typed = "", tries = 0, firstTry = 0, locked = false, finished = false;
+    let timer = null, pending = null;
+    const m = E.page({ title: "✖️ RapidFire Tables", subtitle: "Tables 1–13 × 1–9", subject: S });
+    const bar = E.progressBar();
+    bar.set(0, RFT_TOTAL);
+    m.appendChild(bar.node);
+    const stats = E.el("div", "stat");
+    const time = E.el("span", null, "⏱️ 0.0s");
+    const goal = E.el("span", null, "🎯 0 / " + RFT_TOTAL);
+    stats.append(time, goal);
+    m.appendChild(stats);
+    const host = E.el("div");
+    const card = E.el("div", "card qbox");
+    const prompt = E.el("div", "qbig en");
+    const box = E.el("div", "answerbox");
+    box.setAttribute("role", "status");
+    box.setAttribute("aria-label", "Your answer");
+    const feedback = E.el("p", "hintline");
+    feedback.setAttribute("aria-live", "polite");
+    const pad = E.el("div", "numpad");
+    card.append(prompt, box, pad, feedback);
+    host.appendChild(card);
+    m.appendChild(host);
+
+    ["1","2","3","4","5","6","7","8","9","⌫","0","✓"].forEach(k => {
+      const button = E.btn(k, "key" + (k === "✓" ? " act" : ""), () => {
+        if (locked || finished || !m.isConnected) return;
+        if (k === "✓") { submit(); return; }
+        if (k === "⌫") typed = typed.slice(0, -1);
+        else if (typed.length < 3) typed += k;
+        box.textContent = typed;
+        box.className = "answerbox";
+        if (k !== "⌫" && typed.length >= String(questions[index].ans).length) submit();
+      });
+      if (k === "⌫") button.setAttribute("aria-label", "Erase last digit");
+      if (k === "✓") button.setAttribute("aria-label", "Check answer");
+      pad.appendChild(button);
+    });
+
+    function lock(value) {
+      locked = value;
+      [...pad.children].forEach(button => { button.disabled = value; });
+    }
+    function next() {
+      typed = ""; tries = 0;
+      const q = questions[index];
+      prompt.textContent = q.a + " × " + q.b;
+      box.textContent = "";
+      box.className = "answerbox";
+      feedback.textContent = "Question " + (index + 1) + " of " + RFT_TOTAL;
+      lock(false);
+    }
+    function stop() {
+      clearInterval(timer);
+      clearTimeout(pending);
+    }
+    function later(action, delay) {
+      pending = setTimeout(() => {
+        if (!m.isConnected || finished) { stop(); return; }
+        action();
+      }, delay);
+    }
+    function submit() {
+      if (!typed.length) { feedback.textContent = "Tap a number first!"; return; }
+      lock(true);
+      const q = questions[index];
+      if (Number(typed) !== q.ans) {
+        tries++;
+        box.className = "answerbox bad";
+        E.sfx.wrong();
+        feedback.textContent = tries >= 2
+          ? "💡 " + MATHS.tricks[q.a]
+          : "Not quite — have another go! 💛";
+        later(() => {
+          typed = ""; box.textContent = ""; box.className = "answerbox"; lock(false);
+        }, 700);
+        return;
+      }
+      if (tries === 0) firstTry++;
+      E.sfx.correct();
+      box.className = "answerbox ok";
+      feedback.textContent = "Yes! " + q.a + " × " + q.b + " = " + q.ans;
+      index++;
+      goal.textContent = "🎯 " + index + " / " + RFT_TOTAL;
+      bar.set(index, RFT_TOTAL);
+      if (index === RFT_TOTAL) finish();
+      else later(next, 350);
+    }
+    function finish() {
+      finished = true;
+      stop();
+      const seconds = (performance.now() - startedAt) / 1000;
+      time.textContent = "⏱️ " + fmtRfTime(seconds);
+      const record = rfBestTime(RFT_KEY, seconds);
+      host.innerHTML = "";
+      E.finishCard(host, {
+        score: RFT_TOTAL, total: RFT_TOTAL,
+        note: "All " + RFT_TOTAL + " solved in <b>" + fmtRfTime(seconds) + "</b>!<br>" +
+          firstTry + " correct on the first try.<br>" +
+          (record.isNew ? "🏆 New best time!" : "⭐ Best time: " + fmtRfTime(record.value)),
+        again() { E.replace(rapidFireTablesRun); }
+      });
+    }
+
+    next();
+    const startedAt = performance.now();
+    timer = setInterval(() => {
+      // Navigation removes this page; abandoned rounds must not keep running or save a record.
+      if (!m.isConnected) { stop(); return; }
+      time.textContent = "⏱️ " + ((performance.now() - startedAt) / 1000).toFixed(1) + "s";
+    }, 100);
   }
 
   window.MathsScreens = { home, fmtRfTime };
