@@ -54,6 +54,14 @@
     /* Grown-ups corner */
     const parent = E.btn("👩‍👧 For Mamma & Papa", "btn ghost wide", () => E.go(parentsPage));
     list.appendChild(parent);
+    list.appendChild(E.btn("⏱️ Reset best times", "btn ghost wide", () => {
+      if (!confirm("Reset all best-time records on this device? This cannot be undone. " +
+        "Stars, learning progress, day streak and high scores will stay unchanged.")) return;
+      if (E.resetBestTimes()) {
+        E.refresh();
+        E.toast("Best times reset — ready for new records! ⭐", "ok");
+      }
+    }));
     list.appendChild(E.el("p", "footnote", "Made with ❤️ for " + E.cfg.child.name));
 
     page.appendChild(list);

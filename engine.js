@@ -32,6 +32,18 @@ window.E = (function () {
   function save() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
   }
+  function resetBestTimes() {
+    const best = Object.fromEntries(Object.entries(state.best).filter(([key]) => !key.endsWith("-time")));
+    // Persist before changing memory so a failed write cannot resurrect old records on reload.
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify(Object.assign({}, state, { best })));
+    } catch (e) {
+      toast("Could not save the reset. Please allow browser storage and try again.");
+      return false;
+    }
+    state.best = best;
+    return true;
+  }
   function addStars(n) {
     state.stars = (state.stars || 0) + (n || 1);
     save();
@@ -465,7 +477,7 @@ window.E = (function () {
   load();
 
   return {
-    cfg, state, save, addStars, markDone, isDone, best, touchStreak,
+    cfg, state, save, resetBestTimes, addStars, markDone, isDone, best, touchStreak,
     speak, speakHi, speakEn, speakSeq, stopSpeak, pickVoice,
     listenOnce, looseMatch, canListen, norm,
     sfx, tone,

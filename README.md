@@ -59,6 +59,7 @@ out loud.
 - **Tap any word** in any sentence to hear just that word.
 - **🎤 Say it** — optional microphone practice; always encouraging, never blocks her.
 - **Rewards** — stars, confetti, day streaks, and a record to beat.
+- **Reset best times** — home-page button clears RapidFire100, RapidFire0, and RapidFire Tables time records on this device after confirmation. Stars, learning progress, streaks, and high scores (including Brain Speed) stay unchanged.
 - **🏠 button** so she is never lost deep inside an activity.
 - **Offline** after first load. No accounts, no ads, no trackers, no data leaves the phone.
 
