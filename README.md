@@ -19,6 +19,8 @@ the first load.
 | **Sound ladder** | क + ा = का — tap any syllable to hear it |
 | **Reading room** | 3 sentence levels (30 sentences) + 3 short stories |
 | **Games** | Listen & Tap · Picture Match · Mixed Quiz · Finger-trace writing |
+| **Numbers 1–100** | Hindi names, Roman reading aids, and both numeral scripts; ten-number groups with tap-to-hear, repeat, slow mode, and stop |
+| **Weekdays & months** | All seven days (Monday–Sunday) and twelve Gregorian months (January–December) in Hindi, with English meanings and the same pronunciation controls |
 
 Every maatra tile shows the sign **riding on क** (का, कि, की…) so she sees its real shape,
 not a lone dotted circle.

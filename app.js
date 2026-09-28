@@ -103,7 +103,8 @@
     c.appendChild(E.el("h2", null, "📚 What's inside"));
     c.appendChild(E.el("p", null,
       "<b>Hindi:</b> " + HINDI.maatras.length + " maatras · " + HINDI.allWords().length +
-      " words · " + HINDI.reading.length + " reading levels · " + HINDI.stories.length + " stories.<br>" +
+      " words · " + HINDI.reading.length + " reading levels · " + HINDI.stories.length + " stories · " +
+      "numbers 1–100 · 7 weekdays · 12 months with Hindi pronunciation.<br>" +
       "<b>English:</b> " + ENGLISH.allWords().length + " dictation words · " +
       ENGLISH.reading.length + " reading levels · " + ENGLISH.passages.length + " stories.<br>" +
       "<b>Maths:</b> tables 1–" + MATHS.tablesUpTo +

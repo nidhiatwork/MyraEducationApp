@@ -9,11 +9,11 @@
 
   /* ------------------------------------------------------------ HINDI HOME */
   function home() {
-    const m = E.page({ title: "हिंदी", subtitle: "Maatra • Shabd • Vaakya", subject: S });
+    const m = E.page({ title: "हिंदी", subtitle: "Words • Numbers • Days • Months", subject: S });
 
     const intro = E.el("div", "card");
     intro.appendChild(E.el("h2", null, "🦜 Mithu says namaste!"));
-    intro.appendChild(E.el("p", null, "Pick a maatra to learn, or go to the Reading Room to read full sentences."));
+    intro.appendChild(E.el("p", null, "Learn words, count to 100, or say the days and months in Hindi. Tap a card and say it with Mithu!"));
     m.appendChild(intro);
 
     const t = E.el("div", "tiles");
@@ -21,6 +21,12 @@
     t.appendChild(tile("📖", "Reading", "Words → sentences", () => E.go(readingRoom)));
     t.appendChild(tile("🎯", "Mixed Quiz", "All words", () => E.go(() => mixedQuiz())));
     t.appendChild(tile("✍️", "Write", "Trace letters", () => E.go(traceMenu)));
+    t.appendChild(tile("🔢", "Numbers 1–100", "गिनती", () =>
+      E.go(() => vocabularyLesson("गिनती", "Numbers 1–100", HINDI.numbers, 10))));
+    t.appendChild(tile("📅", "Weekdays", "सप्ताह के दिन", () =>
+      E.go(() => vocabularyLesson("सप्ताह के दिन", "Monday to Sunday", HINDI.weekdays))));
+    t.appendChild(tile("🗓️", "Months", "महीने", () =>
+      E.go(() => vocabularyLesson("महीने", "January to December in Hindi", HINDI.months))));
     m.appendChild(t);
     return m;
   }
@@ -121,9 +127,10 @@
     }));
   }
 
-  function wordCard(w, en) {
+  function wordCard(w, en, onSpeak) {
     const c = E.btn("", "wordcard", (ev, b) => {
-      E.speakHi(w.w, { slow: true });
+      if (onSpeak) onSpeak(w);
+      else E.speakHi(w.w, { slow: true });
       b.classList.add("lit"); setTimeout(() => b.classList.remove("lit"), 600);
     });
     c.innerHTML = "";
@@ -132,6 +139,91 @@
     c.appendChild(E.el("div", "r", w.r || ""));
     c.appendChild(E.el("div", "m", w.m || ""));
     return c;
+  }
+
+  /* ------------------------------------------------ NUMBERS, DAYS & MONTHS */
+  function vocabularyLesson(title, subtitle, words, pageSize) {
+    const m = E.page({ title, subtitle, subject: S });
+    let start = 0, slow = false, selected = null;
+    const intro = E.el("div", "card");
+    intro.appendChild(E.el("h2", null, subtitle));
+    intro.appendChild(E.el("p", null,
+      "Tap, listen, and say it back. Roman letters help you read the sound."));
+    const status = E.el("p", "hintline", "Pick a card below.");
+    status.setAttribute("role", "status");
+    const controls = E.el("div", "row");
+    const speed = E.btn("🐢 Slow: off", "btn", () => {
+      slow = !slow;
+      speed.textContent = "🐢 Slow: " + (slow ? "on" : "off");
+      speed.setAttribute("aria-pressed", String(slow));
+    });
+    speed.setAttribute("aria-pressed", "false");
+    const repeat = E.btn("🔊 Hear again", "btn", () => say(selected));
+    repeat.disabled = true;
+    controls.append(speed, repeat, E.btn("⏹ Stop", "btn", () => E.stopSpeak()));
+    intro.append(controls, status);
+    m.appendChild(intro);
+    const host = E.el("div");
+    let previous, next, range, ranges;
+    if (pageSize) {
+      ranges = E.el("select", "btn wide");
+      ranges.id = "hindi-number-group";
+      for (let offset = 0; offset < words.length; offset += pageSize) {
+        const option = E.el("option", null, (offset + 1) + "–" + Math.min(offset + pageSize, words.length));
+        option.value = offset;
+        ranges.appendChild(option);
+      }
+      ranges.addEventListener("change", () => { start = Number(ranges.value); show(); });
+      const picker = E.el("div", "card");
+      const label = E.el("label", "hintline", "Choose 10 numbers to learn");
+      label.htmlFor = ranges.id;
+      picker.append(label, ranges);
+      m.appendChild(picker);
+      const nav = E.el("div", "row");
+      previous = E.btn("← Previous 10", "btn", () => { start -= pageSize; show(); });
+      next = E.btn("Next 10 →", "btn", () => { start += pageSize; show(); });
+      nav.append(previous, next);
+      m.appendChild(nav);
+      range = E.el("p", "hintline");
+      range.setAttribute("role", "status");
+      m.appendChild(range);
+    }
+    m.appendChild(host);
+    m.appendChild(E.el("p", "footnote",
+      "Uses your device's Hindi voice. If the sound is unclear, install a Hindi text-to-speech voice in device settings."));
+
+    function say(word) {
+      selected = word;
+      repeat.disabled = false;
+      status.textContent = word.w + " · " + word.r;
+      if (!("speechSynthesis" in window)) {
+        status.textContent += " — Audio is not supported in this browser. Try a browser with text-to-speech.";
+        return;
+      }
+      E.speakHi(word.w, { slow });
+    }
+    function show() {
+      E.stopSpeak();
+      selected = null;
+      repeat.disabled = true;
+      status.textContent = "Pick a card below.";
+      host.innerHTML = "";
+      const grid = E.el("div", "wordgrid");
+      words.slice(start, pageSize ? start + pageSize : words.length).forEach(word => {
+        const card = wordCard(word, false, say);
+        card.setAttribute("aria-label", "Hear " + (word.n || word.m) + " in Hindi: " + word.w);
+        card.querySelector(".w").setAttribute("lang", "hi");
+        grid.appendChild(card);
+      });
+      host.appendChild(grid);
+      if (pageSize) {
+        previous.disabled = start === 0;
+        next.disabled = start + pageSize >= words.length;
+        range.textContent = "Numbers " + (start + 1) + "–" + Math.min(start + pageSize, words.length);
+        ranges.value = String(start);
+      }
+    }
+    show();
   }
 
   /* ---------------------------------------------------------- LISTEN GAME */
