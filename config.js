@@ -27,7 +27,9 @@ const APP_CONFIG = {
     { id: "english", name: "English", hindi: "",      emoji: "📘", colour: "#42a5f5",
       tagline: "Spelling &amp; Reading" },
     { id: "maths",   name: "Maths",   hindi: "गणित",  emoji: "📗", colour: "#66bb6a",
-      tagline: "Tables, Sums &amp; Brain Speed" }
+      tagline: "Tables, Sums &amp; Brain Speed" },
+    { id: "computers", name: "Computers", hindi: "", emoji: "💻", colour: "#7c4dff",
+      tagline: "Grade 1 Olympiad · 50 practice questions" }
   ]
 };
 if (typeof window !== "undefined") window.APP_CONFIG = APP_CONFIG;

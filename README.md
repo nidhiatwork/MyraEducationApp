@@ -1,6 +1,6 @@
 # 🌈 Myra Learns
 
-One app for **Myra (Class 1)** — Hindi, English and Maths in a single, mobile-friendly
+One app for **Myra (Class 1)** — Hindi, English, Maths and Computers in a single, mobile-friendly
 place. Everything is spoken aloud, everything is tappable, and it works offline after
 the first load.
 
@@ -55,6 +55,27 @@ out loud.
 
 ---
 
+### 💻 Computers — Grade 1 Olympiad
+
+Exactly 50 original four-option questions with explanations: 8 computer basics/parts,
+9 keyboard/mouse, 6 uses/operations/habits, 5 Paint, 8 everyday IT, 7 reasoning,
+and 7 application challenges. Includes original device/shape drawings, spoken questions
+and options, slow speech, manual Next, and missed-question revision.
+
+- Practise 10, practise all 50, or pick a topic. The first choice counts; explanations appear immediately.
+- The untimed SOF-style mock draws 35 distinct questions: 5 reasoning, 20 computer science,
+  5 IT (1 mark each), and 5 challenges (2 marks each): 40 marks, no negative marking.
+  Choices can change before Next; no answer feedback appears until completion.
+- Latest per-question answers and mock best marks are stored on this device and appear in Grown-ups.
+  Incomplete practice saves answered questions; incomplete mocks do not save answers.
+  Leaving a round starts it over. Reset best times preserves this progress; Reset progress clears it.
+- Sources consulted on 25 October 2026:
+  [SOF ICSO Class 1 syllabus/pattern](https://sofworld.org/icso/class-1/icso-syllabus/icso-syllabus-class-1)
+  and [CREST CCO Class 1 syllabus](https://www.crestolympiads.com/cyber-olympiad-cco/class-1).
+  Windows topics follow Windows 11 concepts. The exam organiser is not confirmed.
+  These are independently written practice questions, not copied, official, or predicted exam questions.
+  CREST has a different paper structure; the mock follows SOF, not CREST.
+
 ## Built for a 6-year-old on a phone
 - **Big touch targets** — every button is at least 52 px.
 - **Everything speaks** — Hindi (`hi-IN`) and Indian English (`en-IN`) text-to-speech.
@@ -73,6 +94,8 @@ out loud.
 | `content-hindi.js` | Maatras, words, sentences, stories |
 | `content-english.js` | Dictation sets, reading levels, passages |
 | `content-maths.js` | Tables, sum generators, mental-maths strategies |
+| `content-computers.js` | 50 original computer olympiad questions, topic groups, source references |
+| `screens-computers.js` | Topic practice, mock, spoken feedback, original figures, revision and progress |
 | `engine.js` | Speech, sounds, router, tracing, stars, UI helpers |
 | `screens-hindi.js` / `screens-english.js` / `screens-maths.js` | Subject screens |
 | `app.js` | Home screen, grown-ups page, boot |

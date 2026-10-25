@@ -7,7 +7,8 @@
   const SCREENS = {
     hindi:   () => HindiScreens.home(),
     english: () => EnglishScreens.home(),
-    maths:   () => MathsScreens.home()
+    maths:   () => MathsScreens.home(),
+    computers: () => ComputerScreens.home()
   };
 
   function greeting() {
@@ -88,7 +89,11 @@
       ["⚡ Brain Speed record", (E.best("m-speed") || 0) + " in 60s"],
       ["🔥 RapidFire100 best time", MathsScreens.fmtRfTime(E.state.best["m-rapidfire100-time"])],
       ["🧊 RapidFire0 best time", MathsScreens.fmtRfTime(E.state.best["m-rapidfire0-time"])],
-      ["✖️ RapidFire Tables (20) best time", MathsScreens.fmtRfTime(E.state.best["m-rapidfire-tables-20-time"])]
+      ["✖️ RapidFire Tables (20) best time", MathsScreens.fmtRfTime(E.state.best["m-rapidfire-tables-20-time"])],
+      ["💻 Computer questions tried", ComputerScreens.summary().attempted + " / 50"],
+      ["💻 Computer latest answers correct", ComputerScreens.summary().correct + " / 50"],
+      ["📚 Computer all-50 best score", E.state.best["c-all50"] == null ? "Not yet" : E.state.best["c-all50"] + " / 50"],
+      ["📝 Computer mock best marks", E.state.best["c-mock40"] == null ? "Not yet" : E.state.best["c-mock40"] + " / 40"]
     ];
     const list = E.el("div", "tablelist");
     rows.forEach(r => {
@@ -109,7 +114,9 @@
       ENGLISH.reading.length + " reading levels · " + ENGLISH.passages.length + " stories.<br>" +
       "<b>Maths:</b> tables 1–" + MATHS.tablesUpTo +
       " · carry addition · borrow subtraction · 2-digit × 1-digit · exact division · " +
-      MATHS.strategies.length + " mental-maths tricks · RapidFire Tables: 20 questions, tables 1–13 × 1–9."));
+      MATHS.strategies.length + " mental-maths tricks · RapidFire Tables: 20 questions, tables 1–13 × 1–9.<br>" +
+      "<b>Computers:</b> 50 original Grade 1 questions · 7 topics · spoken questions and explanations · " +
+      "missed-question practice · untimed SOF-style mock."));
     c.appendChild(E.el("p", null,
       "<b>To update for the next class:</b> edit <code>content-hindi.js</code>, " +
       "<code>content-english.js</code>, <code>content-maths.js</code> and bump " +

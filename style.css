@@ -305,6 +305,20 @@ body {
 .strategy h3 { margin: 0 0 6px; font-size: 17px; }
 .strategy .step { font-size: 18px; font-weight: 700; margin: 4px 0; }
 
+/* -------------------------------------------------------- computer practice */
+.computer-question .opts { margin: 14px 0; }
+.computer-question .opt { font-size: 18px; text-align: left; align-items: flex-start; }
+.computer-question .opt.selected { border-color: var(--brand); }
+.computer-question .opt.right { border-color: var(--ok); }
+.computer-question .opt.wrong { border-color: var(--no); }
+[data-subject="computers"] .btn:disabled { opacity: .55; cursor: default; }
+.computer-figure { color: var(--ink); text-align: center; }
+.computer-figure svg { display: block; width: 220px; max-width: 100%; margin: 8px auto; }
+.computer-review summary, [data-subject="computers"] summary { cursor: pointer; min-height: 44px; }
+[data-subject="computers"] button:focus-visible, [data-subject="computers"] summary:focus-visible {
+  outline: 3px solid var(--brand); outline-offset: 3px;
+}
+
 /* -------------------------------------------------------------- trace pad */
 .tracewrap { position: relative; width: 260px; height: 260px; margin: 10px auto;
   background: #fff; border: 3px dashed var(--line); border-radius: 22px; overflow: hidden; }
