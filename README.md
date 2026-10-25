@@ -55,6 +55,21 @@ out loud.
 
 ---
 
+### 🌱 Maths Skill Builders
+
+Maths → Skill Builders contains three untimed explore-and-check activities:
+
+- Balance Detectives: add/remove identical blocks on an equal-arm balance; practise heavier/lighter, level pans, two-balance comparisons and equalising weights.
+- Tens & Ones: build 0–99 on labelled abacus rods; distinguish the tens digit, its value and the whole number, including zero ones and swapped digits.
+- Calendar Explorers: explore all 12 month lengths and ordinary/leap February using seven-day rows; practise 30/31-day months, February, weeks/year facts and checking both statements.
+
+Checks have 6, 6 and 8 questions respectively, with first-choice scoring, explicit Next,
+explanations and missed-question review. Fresh checks vary number/month examples.
+Two consecutive perfect checks earn a Ready practice badge (not a guarantee of mastery).
+Per-skill latest/best scores and streaks persist on-device; Grown-ups shows latest scores.
+Abandoned checks do not change scores. Reset best times preserves these records;
+Reset progress clears them. No exam results or personal assessment details are included.
+
 ### 💻 Computers — Grade 1 Olympiad
 
 Exactly 50 original four-option questions with explanations: 8 computer basics/parts,

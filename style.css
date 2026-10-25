@@ -319,6 +319,20 @@ body {
   outline: 3px solid var(--brand); outline-offset: 3px;
 }
 
+/* ------------------------------------------------------------- skill labs */
+.skill-visual svg { display: block; width: 300px; max-width: 100%; margin: 8px auto; color: var(--ink); }
+.skill-counters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.skill-counters .card { padding: 8px; margin: 0; }
+.skill-counters h3 { margin: 0; font-size: 16px; }
+.skill-question .opts { margin: 14px 0; }
+.skill-question .opt { font-size: 19px; }
+.skill-months { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin: 12px 0; }
+.skill-months .btn { padding: 8px 4px; }
+.skill-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.skill-days span { text-align: center; padding: 5px 0; border: 1px solid var(--line); border-radius: 6px; }
+.skill-lab button:disabled, .skill-question .btn:disabled { opacity: .5; cursor: default; }
+.skill-lab button:focus-visible, .skill-question button:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+
 /* -------------------------------------------------------------- trace pad */
 .tracewrap { position: relative; width: 260px; height: 260px; margin: 10px auto;
   background: #fff; border: 3px dashed var(--line); border-radius: 22px; overflow: hidden; }

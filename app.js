@@ -95,6 +95,11 @@
       ["📚 Computer all-50 best score", E.state.best["c-all50"] == null ? "Not yet" : E.state.best["c-all50"] + " / 50"],
       ["📝 Computer mock best marks", E.state.best["c-mock40"] == null ? "Not yet" : E.state.best["c-mock40"] + " / 40"]
     ];
+    MATH_SKILLS.topics.forEach(topic => {
+      const r = MathSkillScreens.record(topic.id);
+      rows.push([topic.emoji + " " + topic.name,
+        r.rounds ? r.last + "/" + r.total + " latest · " + r.streak + " perfect in a row" : "Not yet"]);
+    });
     const list = E.el("div", "tablelist");
     rows.forEach(r => {
       const row = E.el("div", "trow");
@@ -114,7 +119,8 @@
       ENGLISH.reading.length + " reading levels · " + ENGLISH.passages.length + " stories.<br>" +
       "<b>Maths:</b> tables 1–" + MATHS.tablesUpTo +
       " · carry addition · borrow subtraction · 2-digit × 1-digit · exact division · " +
-      MATHS.strategies.length + " mental-maths tricks · RapidFire Tables: 20 questions, tables 1–13 × 1–9.<br>" +
+      MATHS.strategies.length + " mental-maths tricks · RapidFire Tables: 20 questions, tables 1–13 × 1–9 · " +
+      "Skill Builders: balance scales, tens/ones and calendar days.<br>" +
       "<b>Computers:</b> 50 original Grade 1 questions · 7 topics · spoken questions and explanations · " +
       "missed-question practice · untimed SOF-style mock."));
     c.appendChild(E.el("p", null,

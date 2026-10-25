@@ -28,6 +28,7 @@
     m.appendChild(intro);
 
     const t = E.el("div", "tiles");
+    t.appendChild(tile("🌱", "Skill Builders", "Balance · Abacus · Calendar", () => E.go(MathSkillScreens.home)));
     t.appendChild(tile("✖️", "Tables", "1 to 15", () => E.go(tableList)));
     t.appendChild(tile("➕", "Addition", "with carry", () => E.go(() => columnPractice("add"))));
     t.appendChild(tile("➖", "Subtraction", "with borrow", () => E.go(() => columnPractice("sub"))));
