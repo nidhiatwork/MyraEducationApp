@@ -40,7 +40,8 @@ automatically after two misses.
 ### 📗 Maths — Tables, Sums & Brain Speed
 | | |
 |---|---|
-| **Tables 1–15** | Tap-to-hear rows, chant-along, a memory trick for every table, quizzes |
+| **Tables 1–20** | Multipliers 1–10, tap-to-hear rows, chant-along, a memory trick for every table, quizzes |
+| **🚀 Table Quest** | Ten-fact learning missions, missed-fact rescue, missing multipliers, swapped factors, and accuracy-first speed flights across tables 1–20 |
 | **Addition** | 2-digit + 2-digit, **always with a carry**, shown in proper column form |
 | **Subtraction** | 2-digit − 2-digit, **always with a borrow**, never negative |
 | **Multiplication** | 2-digit × 1-digit |
@@ -54,6 +55,28 @@ memorise the answers. "💡 Show me how" walks through the carry/borrow step by 
 out loud.
 
 ---
+
+### 🚀 Table Quest
+
+Choose a single table or a band (including 15–20 or all 1–20). Learn & play
+prioritises up to four previously missed/hinted facts, then unseen facts, without
+duplicates in a ten-question mission. Answers, missing multipliers and swapped
+factors practise the same underlying facts. Shortcuts explain the current numbers;
+read-aloud, fuel stars and first-try streaks encourage understanding.
+
+Speed flight uses typed answers with an explicit Check button. Its count-up clock
+measures answering time (including retries and hints), excluding feedback/Next time.
+There is no deadline. Only a completed ten-fact round with every answer correct
+first try and no hints can set a best time. Records are separate per selected range.
+Reset best times clears these records too. Earlier RapidFire Tables remains
+1–13 × 1–9 and retains its separate record.
+
+Latest independent-correct status for all 200 facts saves at mission completion;
+leaving early discards that mission. Rescue revisits incorrect or hinted facts.
+The constellation and Grown-ups page show latest results, not guaranteed mastery.
+Reset progress clears these results; Reset best times does not.
+
+Content checks: `node --test tests/table-quest.test.cjs` (Node.js built-ins only).
 
 ### 🌱 Maths Skill Builders
 
@@ -109,6 +132,7 @@ and options, slow speech, manual Next, and missed-question revision.
 | `content-hindi.js` | Maatras, words, sentences, stories |
 | `content-english.js` | Dictation sets, reading levels, passages |
 | `content-maths.js` | Tables, sum generators, mental-maths strategies |
+| `screens-table-quest.js` | Tables 1–20 learning, rescue and scoped speed-flight records |
 | `content-computers.js` | 50 original computer olympiad questions, topic groups, source references |
 | `screens-computers.js` | Topic practice, mock, spoken feedback, original figures, revision and progress |
 | `engine.js` | Speech, sounds, router, tracing, stars, UI helpers |

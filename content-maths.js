@@ -29,7 +29,12 @@ const MATHS = (function () {
     12: "12 = 10 + 2. So 12×6 → 60 + 12 = 72.",
     13: "13 = 10 + 3. So 13×5 → 50 + 15 = 65.",
     14: "14 = 10 + 4. So 14×6 → 60 + 24 = 84. Or double the 7 table!",
-    15: "15 = 10 + 5. So 15×4 → 40 + 20 = 60. Answers end in 0 or 5."
+    15: "15 = 10 + 5. So 15×4 → 40 + 20 = 60. Answers end in 0 or 5.",
+    16: "Double the 8 table! 16 × 3 → 8 × 3 = 24 → double 24 = 48.",
+    17: "Split into 10 and 7. 17 × 4 → 40 + 28 = 68.",
+    18: "Double the 9 table! 18 × 4 → 36 + 36 = 72.",
+    19: "Use 20 groups, then take one group away. 19 × 3 → 60 − 3 = 57.",
+    20: "Double the 10 table! 20 × 6 → 60 + 60 = 120."
   };
 
   function tableRows(n, upto) {
@@ -39,6 +44,41 @@ const MATHS = (function () {
   }
   /* "7 times 2 is 14" — nicer to chant aloud */
   function chant(n, i) { return n + " times " + i + " is " + (n * i); }
+
+  function questPool(lo, hi) {
+    const facts = [];
+    for (let a = lo; a <= hi; a++) {
+      tableRows(a, 10).forEach(q => facts.push(Object.assign({ id: a + "x" + q.b }, q)));
+    }
+    return facts;
+  }
+
+  function questQuestion(fact, kind) {
+    const { a, b, ans } = fact;
+    const answer = kind === "missing" ? b : ans;
+    const prompt = kind === "missing" ? a + " × ? = " + ans :
+      kind === "swap" ? b + " × " + a + " = ?" : a + " × " + b + " = ?";
+    const speech = kind === "missing" ? a + " times what number makes " + ans + "?" :
+      kind === "swap" ? "What is " + b + " times " + a + "?" : "What is " + a + " times " + b + "?";
+    const choices = [answer];
+    for (const candidate of [answer - 1, answer + 1, answer + 2, answer + 3]) {
+      if (candidate > 0 && !choices.includes(candidate) && choices.length < 4) choices.push(candidate);
+    }
+    return { prompt, speech, answer, choices };
+  }
+
+  function questHint(fact) {
+    const { a, b, ans } = fact;
+    if (a === 1) return "One group of " + b + " is " + b + ". 1 × " + b + " = " + ans + ".";
+    if (a === 19) return "20 × " + b + " = " + (20 * b) + ". Take away " + b + ": " + (20 * b) + " − " + b + " = " + ans + ".";
+    if (a >= 10) {
+      const tens = Math.floor(a / 10) * 10, ones = a % 10;
+      return a + " = " + tens + " + " + ones + ". " + tens + " × " + b + " = " + (tens * b) +
+        "; " + ones + " × " + b + " = " + (ones * b) + ". Add them: " + (tens * b) + " + " + (ones * b) + " = " + ans + ".";
+    }
+    const hops = Array.from({ length: b }, (_, i) => (i + 1) * a);
+    return "Hop in " + a + "s, " + b + " times: " + hops.join(", ") + ". " + a + " × " + b + " = " + ans + ".";
+  }
 
   /* ----------------------------------------------------------- GENERATORS */
   const gen = {
@@ -235,8 +275,9 @@ const MATHS = (function () {
   }
 
   return {
-    tablesUpTo: 15, rowsPerTable: 10,
+    tablesUpTo: 20, rowsPerTable: 10,
     tableRows, chant, tricks: TABLE_TRICKS,
+    questPool, questQuestion, questHint,
     gen, strategies, quickSum, explain, ri, pick
   };
 })();

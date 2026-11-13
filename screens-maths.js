@@ -1,6 +1,6 @@
 /* ============================================================================
    Myra Learns — MATHS screens
-   Tables 1–15 · column +, −, ×, ÷ (carry & borrow shown) · mental-maths speed
+   Tables 1–20 · column +, −, ×, ÷ (carry & borrow shown) · mental-maths speed
    ========================================================================== */
 (function () {
   "use strict";
@@ -29,7 +29,8 @@
 
     const t = E.el("div", "tiles");
     t.appendChild(tile("🌱", "Skill Builders", "Balance · Abacus · Calendar", () => E.go(MathSkillScreens.home)));
-    t.appendChild(tile("✖️", "Tables", "1 to 15", () => E.go(tableList)));
+    t.appendChild(tile("✖️", "Tables", "1 to " + MATHS.tablesUpTo, () => E.go(tableList)));
+    t.appendChild(tile("🚀", "Table Quest", "Learn · Rescue · Speed · 1–20", () => E.go(TableQuest.home)));
     t.appendChild(tile("➕", "Addition", "with carry", () => E.go(() => columnPractice("add"))));
     t.appendChild(tile("➖", "Subtraction", "with borrow", () => E.go(() => columnPractice("sub"))));
     t.appendChild(tile("✳️", "Multiply", "2-digit × 1", () => E.go(() => columnPractice("mul"))));
@@ -52,6 +53,7 @@
       grid.appendChild(b);
     }
     m.appendChild(grid);
+    m.appendChild(E.btn("🚀 Table Quest", "btn primary wide", () => E.go(TableQuest.home)));
     m.appendChild(E.btn("🎯 Mixed Table Quiz", "btn primary wide", () => E.go(() => tableQuiz(null))));
   }
 
@@ -98,6 +100,7 @@
     }));
     row.appendChild(E.btn("🎯 Quiz me", "btn", () => E.go(() => tableQuiz(n))));
     m.appendChild(row);
+    m.appendChild(E.btn("🚀 Table Quest: practise this table", "btn wide", () => E.go(() => TableQuest.home(n))));
 
     m.appendChild(E.btn("✅ I know this table!", "btn wide", () => {
       E.markDone("m-tab-" + n);
@@ -106,7 +109,7 @@
     }));
   }
 
-  /* Quiz on one table, or mixed across all 15 */
+  /* Quiz on one table, or mixed across all available tables */
   function tableQuiz(n) {
     const total = 10;
     let i = 0, score = 0;
@@ -129,7 +132,7 @@
         });
         return;
       }
-      const a = n || MATHS.ri(2, MATHS.tablesUpTo);
+      const a = n || MATHS.ri(1, MATHS.tablesUpTo);
       const b = MATHS.ri(1, 10);
       const ans = a * b;
       const wrongs = new Set();

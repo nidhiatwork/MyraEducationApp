@@ -306,6 +306,14 @@ body {
 .strategy .step { font-size: 18px; font-weight: 700; margin: 4px 0; }
 
 /* -------------------------------------------------------- computer practice */
+.table-quest .opts { margin: 14px 0; }
+.table-quest .numpad { margin-bottom: 14px; }
+.table-quest .btn:disabled { opacity: .5; cursor: default; }
+.table-quest .quest-star { display: grid; gap: 2px; padding: 8px; }
+.table-quest .quest-star b { font-size: 22px; }
+.table-quest .quest-star small { font-size: 13px; }
+.table-quest button:focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; }
+
 .computer-question .opts { margin: 14px 0; }
 .computer-question .opt { font-size: 18px; text-align: left; align-items: flex-start; }
 .computer-question .opt.selected { border-color: var(--brand); }

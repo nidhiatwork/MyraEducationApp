@@ -85,6 +85,9 @@
       ["📕 Maatras finished", hi + " / " + HINDI.maatras.length],
       ["📘 Word sets finished", en + " / " + ENGLISH.sets.length],
       ["✖️ Tables learnt", tab + " / " + MATHS.tablesUpTo],
+      ["🚀 Table Quest facts tried", TableQuest.summary().tried + " / 200"],
+      ["🚀 Table Quest latest first-try facts", TableQuest.summary().confident + " / 200"],
+      ["💛 Table Quest facts to revisit", TableQuest.summary().missed],
       ["🪄 Mental tricks learnt", str + " / " + MATHS.strategies.length],
       ["⚡ Brain Speed record", (E.best("m-speed") || 0) + " in 60s"],
       ["🔥 RapidFire100 best time", MathsScreens.fmtRfTime(E.state.best["m-rapidfire100-time"])],
@@ -120,7 +123,7 @@
       "<b>Maths:</b> tables 1–" + MATHS.tablesUpTo +
       " · carry addition · borrow subtraction · 2-digit × 1-digit · exact division · " +
       MATHS.strategies.length + " mental-maths tricks · RapidFire Tables: 20 questions, tables 1–13 × 1–9 · " +
-      "Skill Builders: balance scales, tens/ones and calendar days.<br>" +
+      "Table Quest: 1–20 learning/rescue/speed missions · Skill Builders: balance scales, tens/ones and calendar days.<br>" +
       "<b>Computers:</b> 50 original Grade 1 questions · 7 topics · spoken questions and explanations · " +
       "missed-question practice · untimed SOF-style mock."));
     c.appendChild(E.el("p", null,
