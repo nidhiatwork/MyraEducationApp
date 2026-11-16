@@ -306,6 +306,14 @@ body {
 .strategy .step { font-size: 18px; font-weight: 700; margin: 4px 0; }
 
 /* -------------------------------------------------------- computer practice */
+.table-speaking [hidden] { display: none !important; }
+.table-speaking { scroll-margin-top: 85px; }
+.table-speaking .btn:disabled, .table-speaking .key:disabled { opacity: .5; cursor: default; }
+.table-speaking .numpad { margin-bottom: 14px; }
+.table-voice-consent { display: flex; align-items: center; gap: 10px; min-height: 52px; margin: 12px 0; }
+.table-voice-consent input { flex: none; width: 24px; height: 24px; }
+.table-speaking button:focus-visible, .table-voice-consent input:focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; }
+
 .table-quest .opts { margin: 14px 0; }
 .table-quest .numpad { margin-bottom: 14px; }
 .table-quest .btn:disabled { opacity: .5; cursor: default; }

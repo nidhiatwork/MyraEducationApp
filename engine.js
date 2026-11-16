@@ -376,9 +376,14 @@ window.E = (function () {
   /* ----------------------------------------------------------------- router */
   const stack = [];          // stack of render functions; [0] is always Home
   let painting = false;
+  let pageCleanups = [];
+  function onLeave(cleanup) { pageCleanups.push(cleanup); }
 
   function render(fn) {
     painting = true;
+    const cleanups = pageCleanups;
+    pageCleanups = [];
+    cleanups.forEach(cleanup => cleanup());
     stopSpeak();
     APPEL.innerHTML = "";
     fn();
@@ -484,6 +489,6 @@ window.E = (function () {
     el, btn, shuffle, sample, randInt, graphemes, praise,
     toast, confetti, celebrate,
     speakBtn, slowBtn, micBtn, tracePad,
-    go, back, home, replace, reset, refresh, page, progressBar, finishCard, paintStars
+    go, back, home, replace, reset, refresh, page, onLeave, progressBar, finishCard, paintStars
   };
 })();

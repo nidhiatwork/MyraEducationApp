@@ -58,46 +58,15 @@
   }
 
   function tableView(n) {
-    const m = E.page({ title: "Table of " + n, subtitle: "Tap a line to hear it", subject: S });
+    const m = E.page({ title: "Table of " + n, subtitle: "Listen · Say the answers · Learn", subject: S });
+    TableSpeaking.mount(n, m);
 
     const trick = E.el("div", "card strategy");
     trick.appendChild(E.el("h3", null, "💡 Trick for " + n));
     trick.appendChild(E.el("p", null, MATHS.tricks[n] || ""));
     m.appendChild(trick);
 
-    const rows = MATHS.tableRows(n, MATHS.rowsPerTable);
-    const list = E.el("div", "tablelist");
-    rows.forEach(r => {
-      const row = E.el("div", "trow");
-      row.innerHTML = "<span>" + r.a + " × " + r.b + "</span><span>= <b>" + r.ans + "</b></span>";
-      row.addEventListener("click", () => {
-        E.sfx.tick();
-        E.speakEn(MATHS.chant(r.a, r.b));
-        row.classList.add("lit"); setTimeout(() => row.classList.remove("lit"), 600);
-      });
-      list.appendChild(row);
-    });
-    const card = E.el("div", "card");
-    card.appendChild(list);
-    m.appendChild(card);
-
     const row = E.el("div", "row");
-    row.appendChild(E.btn("▶️ Chant the table", "btn primary", () => {
-      const items = rows.map(r => MATHS.chant(r.a, r.b));
-      let k = 0;
-      const nodes = list.children;
-      E.speakSeq(items.map((tx, idx) => ({
-        text: tx,
-        gap: 200
-      })), { lang: E.cfg.langEnglish, rate: 0.88 });
-      // highlight along with the chant
-      const timer = setInterval(() => {
-        [...nodes].forEach(nd => nd.classList.remove("lit"));
-        if (k < nodes.length) nodes[k].classList.add("lit");
-        k++;
-        if (k > nodes.length) { clearInterval(timer); [...nodes].forEach(nd => nd.classList.remove("lit")); }
-      }, 1450);
-    }));
     row.appendChild(E.btn("🎯 Quiz me", "btn", () => E.go(() => tableQuiz(n))));
     m.appendChild(row);
     m.appendChild(E.btn("🚀 Table Quest: practise this table", "btn wide", () => E.go(() => TableQuest.home(n))));

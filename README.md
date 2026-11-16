@@ -1,8 +1,8 @@
 # 🌈 Myra Learns
 
 One app for **Myra (Class 1)** — Hindi, English, Maths and Computers in a single, mobile-friendly
-place. Everything is spoken aloud, everything is tappable, and it works offline after
-the first load.
+place. Read-aloud uses the device's available voices. Internet access may be needed
+to load the app and for browser-provided speech recognition.
 
 **One app that grows with her.** Each year, edit the three `content-*.js` files and bump
 `klass` in `config.js` — the engine, screens and games stay exactly the same.
@@ -40,7 +40,7 @@ automatically after two misses.
 ### 📗 Maths — Tables, Sums & Brain Speed
 | | |
 |---|---|
-| **Tables 1–20** | Multipliers 1–10, tap-to-hear rows, chant-along, a memory trick for every table, quizzes |
+| **Tables 1–20** | Full spoken tables, “sixteen ones are…” voice-answer practice with automatic progression, silent number-pad fallback, memory tricks and quizzes |
 | **🚀 Table Quest** | Ten-fact learning missions, missed-fact rescue, missing multipliers, swapped factors, and accuracy-first speed flights across tables 1–20 |
 | **Addition** | 2-digit + 2-digit, **always with a carry**, shown in proper column form |
 | **Subtraction** | 2-digit − 2-digit, **always with a borrow**, never negative |
@@ -55,6 +55,39 @@ memorise the answers. "💡 Show me how" walks through the carry/borrow step by 
 out loud.
 
 ---
+
+### 🎵 Spoken table lessons
+
+Maths → Tables → choose any table 1–20. All tables cover multipliers 1–10.
+
+- **Play full table** speaks all ten complete lines, for example “sixteen ones are sixteen”
+  through “sixteen tens are one hundred and sixty”. The active row follows speech events,
+  not a guessed timer. Tap any row to hear just that line.
+- **Say the answers** asks “sixteen ones are…” and then listens for the answer in English.
+  Correct final answers automatically advance; wrong, ambiguous or unheard answers stay
+  on that fact with Resume / Try again. The app closes the microphone before the next prompt.
+  It accepts exact digits or English number words through 200, including “one hundred and sixty”.
+  It does not accept a guessed substring, alternative answer list or multiple numbers.
+- **Pause / Resume / Stop**, slow voice, and a show-answer helper are available.
+  Resume repeats the current line. Switching mode, leaving the page or hiding the tab
+  cancels pending speech/listening; returning from a hidden tab requires Resume.
+- **Use number pad** is a silent fallback and checks typed answers without claiming
+  to have heard speech. It works even when microphone permission or audio is unavailable.
+  An incomplete line is preserved when switching from voice to the number pad.
+- A grown-up must opt in on this page before voice practice starts; then the browser
+  may request microphone permission. Recognition support varies by browser/device,
+  requires HTTPS (localhost is also allowed), and may require internet. Browser speech
+  providers may process audio remotely. The app does not record, upload itself, or
+  store audio/transcripts. No microphone is used for full-table playback.
+- Completing ten answers earns a small celebration, not an automatic “table mastered”
+  tick. Existing manually earned ticks, Table Quest progress and speed records are preserved.
+
+Content checks: `node --test tests/*.test.cjs`. Speech flow is tested with mocked
+browser APIs; real microphone recognition and pronunciation still depend on the
+child's device, voice availability, permissions, network and speaking clarity.
+For browser regression checks, serve this directory on localhost:8768 and run
+`node tests/table-speaking.browser.cjs` with Playwright available. This uses isolated
+contexts and simulated speech/microphone events, never a real microphone.
 
 ### 🚀 Table Quest
 
@@ -122,7 +155,9 @@ and options, slow speech, manual Next, and missed-question revision.
 - **Rewards** — stars, confetti, day streaks, and a record to beat.
 - **Reset best times** — home-page button clears RapidFire100, RapidFire0, and RapidFire Tables time records on this device after confirmation. Stars, learning progress, streaks, and high scores (including Brain Speed) stay unchanged.
 - **🏠 button** so she is never lost deep inside an activity.
-- **Offline** after first load. No accounts, no ads, no trackers, no data leaves the phone.
+- **Privacy** — no accounts, ads or app analytics. Progress stays in localStorage.
+  Optional microphone recognition may send audio to the browser's speech provider.
+  Downloaded voices may work offline; app loading, fonts and speech services can need internet.
 
 ## Files
 | File | Purpose |
@@ -133,6 +168,8 @@ and options, slow speech, manual Next, and missed-question revision.
 | `content-english.js` | Dictation sets, reading levels, passages |
 | `content-maths.js` | Tables, sum generators, mental-maths strategies |
 | `screens-table-quest.js` | Tables 1–20 learning, rescue and scoped speed-flight records |
+| `content-table-speaking.js` | Ones/twos table phrasing and exact English number-answer parsing |
+| `screens-table-speaking.js` | Full-table playback and speech/listening lifecycle with explicit consent and typed fallback |
 | `content-computers.js` | 50 original computer olympiad questions, topic groups, source references |
 | `screens-computers.js` | Topic practice, mock, spoken feedback, original figures, revision and progress |
 | `engine.js` | Speech, sounds, router, tracing, stars, UI helpers |
